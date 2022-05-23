@@ -1,2 +1,4 @@
 categories/*
 dask-worker-space/*
+tf_logs/*
+tf_logs/**/*

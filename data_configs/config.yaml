@@ -1,18 +1,10 @@
-raw_fasta_file: "/media/jcosme/Data/MarRef.training.fasta" # absolute path to location of raw .fasta file
-
 clean_fasta_file: "/media/jcosme/Data/MarRef_parquet" # absolute path to output destination of parquet or csv file
 # clean_fasta_file: "/media/jcosme/Data/MarRef_parquet_10_cats"
-
-start_from_clean_fasta_file: False # if a clean fasta file exists, set this to true, else set to False
 
 output_dir: "/media/jcosme/Data" # absolute path to output destination
 
 # project name
 project_name: "full_mer_1" # all files will be saved to this folder, inside the output_dir location
-
-
-# add validation to this to make it either 'csv' or 'parquet'
-file_type: "parquet" # must be either 'parquet' or 'csv'. 'parquet' is recommended (for faster speeds).
 
 # add validation to make this a length = 2 list
 # add validation to make sure these three variables make sense
@@ -27,6 +19,7 @@ label_regex: "(?:[^a-zA-Z0-9]+)([a-zA-Z]+[0-9]+)(?:[^a-zA-Z0-9]+)" # regular exp
 k_mer: 1 # must be an integer in the range 0-12
 
 possible_gene_values: ["A", "C", "G", "T"]
+max_seq_len: 150
 
 # add validation here; must all add up to 1.0
 data_splits:

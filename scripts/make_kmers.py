@@ -1,7 +1,7 @@
-from global_funcs import load_program_config
+from global_funcs import load_data_config
 from dask.distributed import Client
 from dask_cuda import LocalCUDACluster
-
+import numpy as np
 
 if __name__ == '__main__':
     print("starting dask cluster...")
@@ -12,18 +12,16 @@ if __name__ == '__main__':
     import dask_cudf
 
     print("loading configs...")
-    configs = load_program_config()
+    configs = load_data_config()
     
     print("setting variables...")
-    output_dir = configs['output_dir']
-    project_name = configs['project_name']
     input_col_name = configs['input_col_name']
-    random_seed = configs['random_seed']
+    data_dir = configs['data_dir']
     k_mer = configs['k_mer']
     possible_gene_values = configs['possible_gene_values']
     possible_gene_values = sorted(possible_gene_values)
 
-    max_k_mer = 12
+    # max_k_mer = 12
     
     replace_gene_values = []
     for gene_val in possible_gene_values:
@@ -51,21 +49,22 @@ if __name__ == '__main__':
         df[input_col_name] = df[input_col_name].str.split()
         return df
 
-    in_filepath = f"{output_dir}/{project_name}/data/{project_name}"
-    print(f"reading data from:\n{in_filepath}")
-    df = dask_cudf.read_parquet(in_filepath)
+    print(f"reading data from:\n{data_dir}")
+    df = dask_cudf.read_parquet(data_dir)
     
     print(f"creating {k_mer}-mers...")
     if k_mer == 1:
         df = df.map_partitions(add_whitespace)
         df = df.map_partitions(split_whitespace)
-    elif (k_mer > 1) & (k_mer <= max_k_mer):
+    # elif (k_mer > 1) & (k_mer <= max_k_mer):
+    #     df = df.map_partitions(get_kmers)
+    #     df = df.map_partitions(split_whitespace)
+    elif (k_mer > 1):
         df = df.map_partitions(get_kmers)
         df = df.map_partitions(split_whitespace)
-        
-    out_filepath = in_filepath
-    print(f"saving updated data to:\n{out_filepath}")
-    _ = df.to_parquet(out_filepath)
+    
+    print(f"saving updated data to:\n{data_dir}")
+    _ = df.to_parquet(data_dir)
     
     print("deleting dask df...")
     del df

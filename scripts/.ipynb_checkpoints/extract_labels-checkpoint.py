@@ -1,4 +1,4 @@
-from global_funcs import load_program_config
+from global_funcs import load_data_config
 from dask.distributed import Client
 from dask_cuda import LocalCUDACluster
 
@@ -12,46 +12,44 @@ if __name__ == '__main__':
     import dask_cudf
 
     print("loading configs...")
-    configs = load_program_config()
+    configs = load_data_config()
 
     print("setting variables...")
     clean_fasta_filepath = configs['clean_fasta_file']
     output_dir = configs['output_dir']
     project_name = configs['project_name']
-    base_col_names =  configs['base_col_names']
+    unq_labs_dir = configs['unq_labs_dir']
+    unq_labs_dir_csv = configs['unq_labs_dir_csv']
+    data_dir = configs['data_dir']
     label_col_name = configs['label_col_name']
     label_regex = configs['label_regex']
-    random_seed = configs['random_seed']
     
     def extract_labels(df):
         df[label_col_name] = df[label_col_name].str.extract(label_regex).loc[:, 0]
         return df
     
     print("reading data...")
-    df = dask_cudf.read_parquet(clean_fasta_filepath).repartition(partition_size="10M")
+    df = dask_cudf.read_parquet(clean_fasta_filepath).repartition(partition_size="100M")
     print("extracting all labels...")
     df = df.map_partitions(extract_labels)
     
     
     print("getting unique labels...")
-    unq_labs = df.sort_values(label_col_name)[label_col_name].unique().to_frame()
-    out_filepath = f"{output_dir}/{project_name}/data/unq_labels" 
-    print(f"saving unique labels to:\n{out_filepath}")
-    _ = unq_labs.to_parquet(out_filepath)
-    out_filepath = f"{output_dir}/{project_name}/data/unq_labels.csv" 
-    print(f"saving unique labels to:\n{out_filepath}")
-    _ = unq_labs.to_csv(out_filepath, index=False, single_file=True)
+    unq_labs_df = df.sort_values(label_col_name)[label_col_name].unique().to_frame()
+    print(f"saving unique labels to:\n{unq_labs_dir}")
+    _ = unq_labs_df.to_parquet(unq_labs_dir)
+    print(f"saving unique labels to:\n{unq_labs_dir_csv}")
+    _ = unq_labs_df.to_csv(unq_labs_dir_csv, index=False, single_file=True)
     
     print("encoding labels...")
     df = df.categorize(columns=[label_col_name])
     df[label_col_name] = df[label_col_name].cat.codes
     
-    out_filepath = f"{output_dir}/{project_name}/data/{project_name}"
-    print(f"saving updated data to:\n{out_filepath}")
-    _ = df.to_parquet(out_filepath)
+    print(f"saving updated data to:\n{data_dir}")
+    _ = df.to_parquet(data_dir)
     
     print("deleting dask df...")
-    del df
+    del df, unq_labs_df
 
     print("shutting down...")
     client.shutdown()
