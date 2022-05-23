@@ -1,0 +1,50 @@
+# fasta to parquet/csv
+convert the raw .fasta file into a parquet file (or csv) file
+
+# extract labels, and create labels file
+use the regex expression on the config.yaml file to extract label names from strings. 
+save a file of unique label names
+
+# create k-mer sequence 
+0 mer means no change; gene sequence will be left untouched
+1-12 mer follows normal rules
+
+# split into train, val, test
+
+# train model; save model
+
+# do predictions on train, val, test; save results
+
+# create confusion matrix; save images
+
+# calculate scores; save results 
+
+mamba create -n ds -c rapidsai -c nvidia -c conda-forge rapids=22.04 python=3.9 cudatoolkit=11.5 dask-sql ipykernel cudnn datashader seaborn pyyaml opencv scikit-learn scipy statsmodels xgboost dash plotly
+
+
+python -m ipykernel install --user --name ds
+
+mamba create -n tf -c nvidia -c rapidsai -c numba -c conda-forge nvtabular python=3.9 cudatoolkit=11.5 ipykernel tensorflow-gpu
+python -m ipykernel install --user --name tf
+
+mamba create -n tf -c nvidia -c rapidsai -c numba -c conda-forge nvtabular cudatoolkit cudnn ipykernel tensorflow-gpu
+
+mamba create -n tf -c nvidia -c rapidsai -c numba -c conda-forge nvtabular python=3.10 cudatoolkit=11.2 ipykernel tensorflow-gpu
+
+mamba create -n tf -c rapidsai -c nvidia -c conda-forge rapids python=3.8 cudatoolkit=11.2 dask-sql ipykernel cudnn nvtabular tensorflow-gpu
+
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+
+sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cudarepository-pin-600
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204-keyring.gpg
+
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub
+
+https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64
+
+mamba create -n tf -c rapidsai -c nvidia -c conda-forge rapids python=3.9 cudatoolkit=11.5 dask-sql ipykernel cudnn nvtabular tensorflow-gpu merlin-core

@@ -1,0 +1,31 @@
+raw_fasta_file: "gs://" # absolute path to location of raw .fasta file
+
+clean_fasta_file: "gs://" # absolute path to output destination of parquet or csv file
+
+start_from_clean_fasta_file: False # if a clean fasta file exists, set this to true, else set to False
+
+output_dir: "gs://" # absolute path to output destination
+
+# project name
+project_name: "" # all files will be saved to this folder, inside the output_dir location
+
+
+
+
+# add validation to this to make it either 'csv' or 'parquet'
+file_type: "parquet" # must be either 'parquet' or 'csv'. 'parquet' is recommended (for faster speeds).
+
+# add validation to make this a length = 2 list
+base_col_names: ["seq", "label"]
+
+
+label_regex: "" # regular expression used to extract species labels
+
+# add validation to make this 0 - 12
+k-mer: 0 # must be an integer in the range 0-12
+
+# add validation here; must all add up to 1.0
+data_splits:
+  - train: 0.90
+  - val: 0.05
+  - test: 0.05
