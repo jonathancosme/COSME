@@ -1,2 +1,2 @@
 # Convnet On Sequences of MetagEnomics
-COSME model
+COSME model =D
