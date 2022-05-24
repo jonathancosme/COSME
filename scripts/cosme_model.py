@@ -124,6 +124,7 @@ class COSMELayer(tf.keras.Model):
         self.norm  = tf.keras.layers.Dropout(0.1)
         self.flatten = tf.keras.layers.Flatten()
         self.tanh = tf.keras.layers.Dense(n_classes, activation='tanh')
+        self.dense = tf.keras.layers.Dense(n_classes, activation=None)
         self.leaky_relu = tf.keras.layers.LeakyReLU(0.2)
         self.classifier = tf.keras.layers.Dense(n_classes, activation=last_activation)
 
@@ -136,6 +137,7 @@ class COSMELayer(tf.keras.Model):
         out = self.flatten(out)
         # out = self.gpool(out)
         out = self.tanh(out)
+        out = self.dense(out)
         # out = self.norm(out)
         out = self.leaky_relu(out)
         # out = self.norm(out)
