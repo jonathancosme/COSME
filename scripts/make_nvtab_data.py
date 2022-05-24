@@ -7,13 +7,7 @@ from dask_cuda import LocalCUDACluster
 # import pathlib
 
 if __name__ == '__main__':
-    
     import nvtabular as nvt
-
-    print("starting dask cluster...")
-    cluster = LocalCUDACluster()
-    client = Client(cluster)
-    print("finished starting dask cluster.")
     
     print("loading configs...")
     configs = load_data_config()
@@ -25,6 +19,12 @@ if __name__ == '__main__':
     max_seq_len = configs['max_seq_len']
     nvtab_dir = configs['nvtab_dir']
     data_dir = configs['data_dir']
+    dask_dir = configs['dask_dir']
+    
+    print("starting dask cluster...")
+    cluster = LocalCUDACluster(local_directory=dask_dir)
+    client = Client(cluster)
+    print("finished starting dask cluster.")
 
     
 #     # define some information about where to get our data

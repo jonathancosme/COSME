@@ -1,0 +1,32 @@
+preblock_filters: 64
+preblock_kernel_sizes: [3]
+preblock_pool_size: 2
+idblock_kernel_sizes: [3,5, 7, 9]
+idblock_filters: [64, 128, 256, 512]
+idblock_activation: 'gelu'
+idblock_avg_pool_size: 2
+last_activation: null
+
+
+batch_size: 512
+learn_rate: 0.0001
+epochs: 53
+patience: 10
+num_warmup_epochs: 3
+warmup_lr_multiplier: .01
+from_logits: true
+
+TF_MEMORY_ALLOCATION: '0.7'
+TF_VISIBLE_DEVICE: '0'
+TF_FORCE_GPU_ALLOW_GROWTH: 'true'
+
+device_spill_frac: 0.2
+protocol: 'tcp'
+visible_devices: '0'
+enable_tcp_over_ucx: false
+enable_nvlink: false
+enable_infiniband: false
+rmm_pool_size: '1GB'
+
+clear_models_dirs: true
+clear_tensorboard: true

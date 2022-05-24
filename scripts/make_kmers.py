@@ -4,11 +4,6 @@ from dask_cuda import LocalCUDACluster
 import numpy as np
 
 if __name__ == '__main__':
-    print("starting dask cluster...")
-    cluster = LocalCUDACluster()
-    client = Client(cluster)
-    print("finished starting dask cluster.")
-
     import dask_cudf
 
     print("loading configs...")
@@ -18,8 +13,14 @@ if __name__ == '__main__':
     input_col_name = configs['input_col_name']
     data_dir = configs['data_dir']
     k_mer = configs['k_mer']
+    dask_dir = configs['dask_dir']
     possible_gene_values = configs['possible_gene_values']
     possible_gene_values = sorted(possible_gene_values)
+    
+    print("starting dask cluster...")
+    cluster = LocalCUDACluster(local_directory=dask_dir)
+    client = Client(cluster)
+    print("finished starting dask cluster.")
 
     # max_k_mer = 12
     

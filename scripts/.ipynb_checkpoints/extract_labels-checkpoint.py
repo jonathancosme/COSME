@@ -4,11 +4,6 @@ from dask_cuda import LocalCUDACluster
 
 
 if __name__ == '__main__':
-    print("starting dask cluster...")
-    cluster = LocalCUDACluster()
-    client = Client(cluster)
-    print("finished starting dask cluster.")
-
     import dask_cudf
 
     print("loading configs...")
@@ -23,13 +18,20 @@ if __name__ == '__main__':
     data_dir = configs['data_dir']
     label_col_name = configs['label_col_name']
     label_regex = configs['label_regex']
+    dask_dir = configs['dask_dir']
+    
+    print("starting dask cluster...")
+    cluster = LocalCUDACluster(local_directory=dask_dir)
+    client = Client(cluster)
+    print("finished starting dask cluster.")
+
     
     def extract_labels(df):
         df[label_col_name] = df[label_col_name].str.extract(label_regex).loc[:, 0]
         return df
     
     print("reading data...")
-    df = dask_cudf.read_parquet(clean_fasta_filepath).repartition(partition_size="100M")
+    df = dask_cudf.read_parquet(clean_fasta_filepath).repartition(partition_size="10M")
     print("extracting all labels...")
     df = df.map_partitions(extract_labels)
     

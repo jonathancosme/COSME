@@ -1,8 +1,0 @@
-preblock_filters: 64
-preblock_kernel_sizes: [3, 5, 7, 9, 11, 13]
-preblock_pool_size: 2
-idblock_kernel_sizes: [3, 5, 7, 9, 11, 13]
-idblock_filters: [64, 128, 256, 512]
-idblock_activation: 'gelu'
-idblock_avg_pool_size: 2
-last_activation: 'softmax'

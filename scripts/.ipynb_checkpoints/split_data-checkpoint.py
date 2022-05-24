@@ -4,11 +4,6 @@ from dask_cuda import LocalCUDACluster
 
 
 if __name__ == '__main__':
-    print("starting dask cluster...")
-    cluster = LocalCUDACluster()
-    client = Client(cluster)
-    print("finished starting dask cluster.")
-
     import dask_cudf
 
     print("loading configs...")
@@ -20,6 +15,12 @@ if __name__ == '__main__':
     data_dir = configs['data_dir']
     random_seed = configs['random_seed']
     data_splits = configs['data_splits']
+    dask_dir = configs['dask_dir']
+    
+    print("starting dask cluster...")
+    cluster = LocalCUDACluster(local_directory=dask_dir)
+    client = Client(cluster)
+    print("finished starting dask cluster.")
     
     data_splits_values = []
     for a_split, a_val in data_splits.items():

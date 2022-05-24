@@ -1,0 +1,2 @@
+[ 40162][10:08:58:493965][info  ] ----- RMM LOG BEGIN [PTDS DISABLED] -----
+[ 40162][10:08:58:493984][error ] [A][Stream 0x1][Upstream 1000000000B][FAILURE maximum pool size exceeded]
