@@ -1,11 +1,11 @@
-clean_fasta_file: "/media/jcosme/Data/MarRef_parquet" # absolute path to output destination of parquet or csv file
+# clean_fasta_file: "/media/jcosme/Data/MarRef_parquet" # absolute path to output destination of parquet or csv file
 clean_fasta_file: "/media/jcosme/Data/MarRef_parquet_10_cats"
 
 output_dir: "/media/jcosme/Data" # absolute path to output destination
 
 # project name
 # project_name: "full_mer_1" # all files will be saved to this folder, inside the output_dir location
-project_name: 'MarRef_parquet_10_cats'
+project_name: 'small_mer_1'
 
 # add validation to make this a length = 2 list
 # add validation to make sure these three variables make sense

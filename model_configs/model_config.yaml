@@ -1,26 +1,26 @@
-preblock_filters: 64
-preblock_kernel_sizes: [3]
-preblock_pool_size: 2
-idblock_kernel_sizes: [3,5, 7, 9]
-idblock_filters: [64, 128, 256, 512]
+preblock_filters: 32
+preblock_kernel_sizes: [7]
+preblock_pool_size: 3
+idblock_kernel_sizes: [5]
+idblock_filters: [32, 64, 128]
 idblock_activation: 'gelu'
-idblock_avg_pool_size: 2
-last_activation: null
+idblock_avg_pool_sizes: [11]
+last_activation: 'softmax'
 
 
-batch_size: 512
-learn_rate: 0.0001
-epochs: 53
-patience: 10
-num_warmup_epochs: 3
-warmup_lr_multiplier: .01
-from_logits: true
+batch_size: 4096
+learn_rate: 0.0005
+epochs: 300
+patience: 299
+num_warmup_epochs: 2
+warmup_lr_multiplier: .001
+from_logits: false
 
-TF_MEMORY_ALLOCATION: '0.7'
+TF_MEMORY_ALLOCATION: '0.8'
 TF_VISIBLE_DEVICE: '0'
 TF_FORCE_GPU_ALLOW_GROWTH: 'true'
 
-device_spill_frac: 0.2
+device_spill_frac: 0.15
 protocol: 'tcp'
 visible_devices: '0'
 enable_tcp_over_ucx: false
